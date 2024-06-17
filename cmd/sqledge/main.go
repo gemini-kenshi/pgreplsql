@@ -5,13 +5,13 @@ import (
 	"flag"
 	"os"
 
+	"github.com/gemini-kenshi/pg-replicate-sql/pkg/config"
+	"github.com/gemini-kenshi/pg-replicate-sql/pkg/queryproxy"
+	"github.com/gemini-kenshi/pg-replicate-sql/pkg/replicate"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/zknill/sqledge/pkg/config"
-	"github.com/zknill/sqledge/pkg/queryproxy"
-	"github.com/zknill/sqledge/pkg/replicate"
 )
 
 func main() {

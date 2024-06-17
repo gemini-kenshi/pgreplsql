@@ -8,6 +8,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/gemini-kenshi/pg-replicate-sql/pkg/sqlgen"
+	"github.com/gemini-kenshi/pg-replicate-sql/pkg/tables"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -15,8 +17,6 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 	"github.com/testcontainers/testcontainers-go/wait"
-	"github.com/zknill/sqledge/pkg/sqlgen"
-	"github.com/zknill/sqledge/pkg/tables"
 )
 
 func init() {

@@ -3,8 +3,8 @@ package sqlgen_test
 import (
 	"testing"
 
+	"github.com/gemini-kenshi/pg-replicate-sql/pkg/sqlgen"
 	"github.com/stretchr/testify/assert"
-	"github.com/zknill/sqledge/pkg/sqlgen"
 )
 
 func TestParseSql(t *testing.T) {
