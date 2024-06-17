@@ -1,6 +1,6 @@
 module github.com/zknill/sqledge
 
-go 1.20
+go 1.22.3
 
 require (
 	github.com/jackc/pglogrepl v0.0.0-20230630212501-5fd22a600b50
