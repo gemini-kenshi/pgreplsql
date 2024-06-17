@@ -144,7 +144,7 @@ func (c *Conn) Stream(ctx context.Context, cfg SlotConfig, d DBDriver, gen SQLGe
 
 	log.Debug().Msgf("starting slot from pos: %q", c.pos)
 
-	if err := slot.start(ctx); err != nil {
+	if err := slot.Start(ctx); err != nil {
 		return fmt.Errorf("start slot: %w", err)
 	}
 
@@ -153,12 +153,12 @@ func (c *Conn) Stream(ctx context.Context, cfg SlotConfig, d DBDriver, gen SQLGe
 		query      string
 	)
 
-	stream := slot.stream()
+	stream := slot.Stream()
 
 	for {
 		select {
 		case <-ctx.Done():
-			slot.close()
+			slot.Close()
 			return ctx.Err()
 		case <-slot.errs:
 			return fmt.Errorf("slot error: %w", err)
@@ -207,6 +207,10 @@ func (c *Conn) Stream(ctx context.Context, cfg SlotConfig, d DBDriver, gen SQLGe
 			return fmt.Errorf("apply sql: %w", err)
 		}
 	}
+}
+
+func (c *Conn) GetSlot(slotName, outputPlugin string, createSlot, temporary bool, pos pglogrepl.LSN) (*slot, error) {
+	return c.slot(slotName, outputPlugin, createSlot, temporary, pos)
 }
 
 func (c *Conn) slot(slotName, outputPlugin string, createSlot, temporary bool, pos pglogrepl.LSN) (*slot, error) {
@@ -357,7 +361,7 @@ type slot struct {
 	done chan struct{}
 }
 
-func (s *slot) start(ctx context.Context) error {
+func (s *slot) Start(ctx context.Context) error {
 	if s.msgs != nil {
 		// already started
 		return nil
@@ -387,7 +391,8 @@ func (s *slot) Errors() <-chan error {
 	return s.errs
 }
 
-func (s *slot) stream() <-chan pglogrepl.Message {
+// Stream return replication message channel
+func (s *slot) Stream() <-chan pglogrepl.Message {
 	return s.msgs
 }
 
@@ -488,7 +493,7 @@ func (s *slot) listen() {
 	}
 }
 
-func (s *slot) close() error {
+func (s *slot) Close() error {
 	close(s.done)
 	return nil
 }
