@@ -1,3 +1,11 @@
+# PG-replicate-sql
+
+This project is forked from zknill/sqledge.
+
+The main purpose of this version is to create a package that generate SQL from Postgres replication message.
+
+I don't need the Postgres proxy for my work but I will leave the code unchanged for now.
+
 # SQLedge
 
 [State: alpha]
@@ -21,12 +29,12 @@ When the database is started, we look at which tables already exist in the sqlit
 
 SQLedge contains a Postgres wire proxy, default on `localhost:5433`. This proxy uses the local SQlite database for reads, and forwards writes to the upstream Postgres server.
 
-### Compatibility 
+### Compatibility
 
-When running, the SQL statements interact with two databases; Postgres (for writes) and SQLite (for reads). 
+When running, the SQL statements interact with two databases; Postgres (for writes) and SQLite (for reads).
 
-The Postgres wire proxy (which forwards reads to SQLite) doesn't currently translate any of the SQL statements from the Postgres query format/functions to the SQLite format/functions. 
-Read queries issued against the Postgres wire proxy need to be compatible with SQLite directly. 
+The Postgres wire proxy (which forwards reads to SQLite) doesn't currently translate any of the SQL statements from the Postgres query format/functions to the SQLite format/functions.
+Read queries issued against the Postgres wire proxy need to be compatible with SQLite directly.
 This is fine for simple `SELECT` queries, but you will have trouble with Postgres-specific query functions or syntax.
 
 ## Copy on startup
@@ -37,7 +45,7 @@ off.
 If no LSN is found, SQLedge will start a postgres `COPY` of all tables in the `public` schema. Creating the appropriate SQLite tables, and inserting data.
 
 When the replication slot is first created, it exports a transaction snapshot. This snapshot is used for the initial copy. This means that the `COPY` command will read the data from
-the transaction at the moment the replication slot was created. 
+the transaction at the moment the replication slot was created.
 
 ## Trying it out
 
@@ -53,7 +61,6 @@ the transaction at the moment the replication slot was created.
    create user sqledger with login superuser password 'secret';
    ```
 
-
 3. Run the example
 
    ```
@@ -64,12 +71,13 @@ the transaction at the moment the replication slot was created.
 
    ```
    psql -h localhost -p 5433
- 
+
    $ CREATE TABLE my_table (id serial not null primary key, names text);
    $ INSERT INTO my_table (names) VALUES ('Jane'), ('John');
 
    $ SELECT * FROM my_table;
    ```
+
    The read will be served from the local database
 
 5. Connect to the local sqlite db
