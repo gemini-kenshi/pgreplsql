@@ -117,7 +117,7 @@ func (c *Conn) Stream(ctx context.Context, cfg SlotConfig, d DBDriver, gen SQLGe
 			c.pos = lsn
 		case errors.Is(err, sql.ErrNoRows):
 			// no op
-		case err != nil:
+		default:
 			return fmt.Errorf("parse pos: %w", err)
 
 		}

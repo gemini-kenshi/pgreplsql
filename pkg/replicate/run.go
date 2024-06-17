@@ -5,10 +5,10 @@ import (
 	"database/sql"
 	"fmt"
 
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog/log"
 	"github.com/zknill/sqledge/pkg/config"
 	"github.com/zknill/sqledge/pkg/sqlgen"
+	_ "modernc.org/sqlite"
 )
 
 func Run(ctx context.Context, cfg *config.Config) error {
@@ -21,7 +21,7 @@ func Run(ctx context.Context, cfg *config.Config) error {
 	defer conn.Close()
 
 	// TODO: this is shared across reader and writer
-	db, err := sql.Open("sqlite3", cfg.Local.Path)
+	db, err := sql.Open("sqlite", cfg.Local.Path)
 	if err != nil {
 		return fmt.Errorf("connect to local db: %w", err)
 	}
