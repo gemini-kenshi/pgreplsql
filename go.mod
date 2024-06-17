@@ -1,6 +1,8 @@
-module github.com/zknill/sqledge
+module github.com/gemini-kenshi/pg-replicate-sql
 
 go 1.22.3
+
+replace github.com/zknill/sqledge => .
 
 require (
 	github.com/jackc/pglogrepl v0.0.0-20230630212501-5fd22a600b50
@@ -11,6 +13,7 @@ require (
 	github.com/stretchr/testify v1.8.4
 	github.com/testcontainers/testcontainers-go v0.21.0
 	github.com/testcontainers/testcontainers-go/modules/postgres v0.21.0
+	github.com/zknill/sqledge v0.0.0-00010101000000-000000000000
 	modernc.org/sqlite v1.30.1
 )
 
