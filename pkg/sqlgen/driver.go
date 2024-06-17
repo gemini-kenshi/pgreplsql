@@ -4,32 +4,35 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+
+	"github.com/jmoiron/sqlx"
 )
 
-type SqliteDriver struct {
-	db  *sql.DB
+type DbDriver struct {
+	db  *sqlx.DB
 	cfg SqliteConfig
 }
 
-func NewSqliteDriver(cfg SqliteConfig, db *sql.DB) *SqliteDriver {
-	return &SqliteDriver{
+func NewSqliteDriver(cfg SqliteConfig, db *sqlx.DB) *DbDriver {
+	return &DbDriver{
 		cfg: cfg,
 		db:  db,
 	}
 }
 
-func (s *SqliteDriver) Execute(query string) error {
+func (s *DbDriver) Execute(query string) error {
 	_, err := s.db.Exec(query)
 	return err
 }
 
-func (s *SqliteDriver) Pos() (string, error) {
+func (s *DbDriver) Pos() (string, error) {
 	query := `SELECT pos 
     FROM postgres_pos 
 	WHERE source_db = ? 
 	AND plugin = ?
 	AND publication = ?;`
 
+	query = s.db.Rebind(query)
 	row := s.db.QueryRow(query, s.cfg.SourceDB, s.cfg.Plugin, s.cfg.Publication)
 
 	var pos string
@@ -45,7 +48,7 @@ func (s *SqliteDriver) Pos() (string, error) {
 	return pos, nil
 }
 
-func (s *SqliteDriver) InitPositionTable() error {
+func (s *DbDriver) InitPositionTable() error {
 	_, err := s.db.Exec(`CREATE TABLE IF NOT EXISTS postgres_pos (
 		source_db text, 
 		plugin text, 
@@ -60,7 +63,7 @@ func (s *SqliteDriver) InitPositionTable() error {
 	return nil
 }
 
-func (s *SqliteDriver) CurrentSchema() (map[string]map[string]ColDef, error) {
+func (s *DbDriver) CurrentSchema() (map[string]map[string]ColDef, error) {
 	// tableName -> colName -> colDef
 	out := make(map[string]map[string]ColDef)
 

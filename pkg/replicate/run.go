@@ -2,11 +2,11 @@ package replicate
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 
 	"github.com/gemini-kenshi/pg-replicate-sql/pkg/config"
 	"github.com/gemini-kenshi/pg-replicate-sql/pkg/sqlgen"
+	"github.com/jmoiron/sqlx"
 	"github.com/rs/zerolog/log"
 	_ "modernc.org/sqlite"
 )
@@ -21,7 +21,7 @@ func Run(ctx context.Context, cfg *config.Config) error {
 	defer conn.Close()
 
 	// TODO: this is shared across reader and writer
-	db, err := sql.Open("sqlite", cfg.Local.Path)
+	db, err := sqlx.Open("sqlite", cfg.Local.Path)
 	if err != nil {
 		return fmt.Errorf("connect to local db: %w", err)
 	}
