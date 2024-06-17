@@ -107,5 +107,4 @@ func TestCopy(t *testing.T) {
 	}}
 
 	assert.Equal(t, want, cols)
-
 }

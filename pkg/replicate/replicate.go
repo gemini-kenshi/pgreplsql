@@ -325,7 +325,6 @@ func (c *Conn) initialCopy(ctx context.Context, schema, snapshotName string, dst
 		vals, err = tables.Copy(ctx, table, columns, copyConn)
 		if err != nil {
 			return fmt.Errorf("copy table: %w", err)
-
 		}
 
 		for _, row := range vals {

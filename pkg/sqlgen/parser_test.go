@@ -15,7 +15,6 @@ func TestParseSql(t *testing.T) {
 		wantCols  []sqlgen.ColDef
 	}{
 		{
-
 			name: "simple table",
 			sql: `CREATE TABLE my_table (
             	    id TEXT PRIMARY KEY,
@@ -28,7 +27,6 @@ func TestParseSql(t *testing.T) {
 			},
 		},
 		{
-
 			name: "composite primary key",
 			sql: `CREATE TABLE my_table (
                     id TEXT,
@@ -50,7 +48,6 @@ func TestParseSql(t *testing.T) {
 	for i := range tests {
 		test := tests[i]
 		t.Run(test.name, func(t *testing.T) {
-
 			p := sqlgen.NewParser(test.sql)
 
 			table, cols, err := p.Parse()
@@ -62,5 +59,4 @@ func TestParseSql(t *testing.T) {
 			assert.Equal(t, test.wantCols, cols)
 		})
 	}
-
 }

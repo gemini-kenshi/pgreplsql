@@ -211,7 +211,6 @@ func (d *arr) Decode(b []byte) string {
 
 				continue
 			}
-
 		}
 
 		fieldLen := buf.popInt32()
