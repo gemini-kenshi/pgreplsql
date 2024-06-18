@@ -54,6 +54,7 @@ func Run(ctx context.Context, cfg *config.Config) error {
 		CreateSlotIfNoExists: cfg.Replication.CreateSlotIfNoExists,
 		Temporary:            cfg.Replication.Temporary,
 		Schema:               cfg.Upstream.Schema,
+		StandbyTimeout:       cfg.Replication.StandbyTimeout,
 	}
 
 	log.Debug().Msg("starting streaming")

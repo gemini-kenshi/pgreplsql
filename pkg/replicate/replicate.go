@@ -79,6 +79,7 @@ type SlotConfig struct {
 	CreateSlotIfNoExists bool
 	Temporary            bool
 	Schema               string
+	StandbyTimeout       int
 }
 
 type DBDriver interface {
@@ -123,7 +124,7 @@ func (c *Conn) Stream(ctx context.Context, cfg SlotConfig, d DBDriver, gen SQLGe
 		}
 	}
 
-	slot, err := c.slot(cfg.SlotName, cfg.OutputPlugin, cfg.CreateSlotIfNoExists, cfg.Temporary, c.pos)
+	slot, err := c.slot(cfg.SlotName, cfg.OutputPlugin, cfg.CreateSlotIfNoExists, cfg.Temporary, c.pos, cfg.StandbyTimeout)
 	if err != nil {
 		return fmt.Errorf("build slot: %w", err)
 	}
@@ -209,11 +210,11 @@ func (c *Conn) Stream(ctx context.Context, cfg SlotConfig, d DBDriver, gen SQLGe
 	}
 }
 
-func (c *Conn) GetSlot(slotName, outputPlugin string, createSlot, temporary bool, pos pglogrepl.LSN) (*slot, error) {
-	return c.slot(slotName, outputPlugin, createSlot, temporary, pos)
+func (c *Conn) GetSlot(cfg SlotConfig, pos pglogrepl.LSN) (*slot, error) {
+	return c.slot(cfg.SlotName, cfg.OutputPlugin, cfg.CreateSlotIfNoExists, cfg.Temporary, pos, cfg.StandbyTimeout)
 }
 
-func (c *Conn) slot(slotName, outputPlugin string, createSlot, temporary bool, pos pglogrepl.LSN) (*slot, error) {
+func (c *Conn) slot(slotName, outputPlugin string, createSlot, temporary bool, pos pglogrepl.LSN, standbyTimeout int) (*slot, error) {
 	pluginArguments := []string{
 		"proto_version '2'",
 		fmt.Sprintf("publication_names '%s'", c.publication),
@@ -222,10 +223,11 @@ func (c *Conn) slot(slotName, outputPlugin string, createSlot, temporary bool, p
 	}
 
 	s := &slot{
-		conn: c.conn,
-		args: pluginArguments,
-		name: slotName,
-		pos:  c.pos,
+		conn:           c.conn,
+		args:           pluginArguments,
+		name:           slotName,
+		pos:            c.pos,
+		standbyTimeout: standbyTimeout,
 	}
 
 	// TODO: automatically work out if slot exists
@@ -351,10 +353,11 @@ func (c *Conn) InitialCopy(ctx context.Context, schema, snapshotName string, dst
 type slot struct {
 	conn *pgconn.PgConn
 
-	args          []string
-	name          string
-	pos           pglogrepl.LSN
-	startSnapshot string
+	args           []string
+	name           string
+	pos            pglogrepl.LSN
+	startSnapshot  string
+	standbyTimeout int
 
 	msgs chan pglogrepl.Message
 	errs chan error
@@ -397,7 +400,7 @@ func (s *slot) Stream() <-chan pglogrepl.Message {
 }
 
 func (s *slot) listen() {
-	standbyMessageTimeout := time.Second * 10
+	standbyMessageTimeout := time.Second * time.Duration(s.standbyTimeout)
 	nextStandbyMessageDeadline := time.Now().Add(standbyMessageTimeout)
 
 	inStream := false
