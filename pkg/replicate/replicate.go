@@ -131,7 +131,7 @@ func (c *Conn) Stream(ctx context.Context, cfg SlotConfig, d DBDriver, gen SQLGe
 	if pos == "" {
 		log.Debug().Msg("starting copy")
 
-		if err := c.initialCopy(ctx, cfg.Schema, slot.startSnapshot, d, gen); err != nil {
+		if err := c.InitialCopy(ctx, cfg.Schema, slot.startSnapshot, d, gen); err != nil {
 			return fmt.Errorf("copy: %w", err)
 		}
 
@@ -271,7 +271,7 @@ func tableColDefs(connStr, schema string) (map[string][]sqlgen.ColDef, error) {
 	return defs, nil
 }
 
-func (c *Conn) initialCopy(ctx context.Context, schema, snapshotName string, dst DBDriver, gen SQLGen) (err error) {
+func (c *Conn) InitialCopy(ctx context.Context, schema, snapshotName string, dst DBDriver, gen SQLGen) (err error) {
 	if schema == "" {
 		return fmt.Errorf("cannot copy for empty schema")
 	}
@@ -517,4 +517,8 @@ func (s *slot) sendErr(err error) {
 	case s.errs <- err:
 	case <-s.done:
 	}
+}
+
+func (s *slot) SnapshotName() string {
+	return s.startSnapshot
 }
