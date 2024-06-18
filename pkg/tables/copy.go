@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/sqlgen"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/rs/zerolog/log"
+	"gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql/pkg/sqlgen"
 )
 
 type Conn interface {

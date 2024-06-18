@@ -7,11 +7,11 @@ import (
 	"net"
 	"time"
 
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/config"
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/pgwire"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog/log"
+	"gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql/pkg/config"
+	"gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql/pkg/pgwire"
 )
 
 func Run(ctx context.Context, cfg *config.Config) error {

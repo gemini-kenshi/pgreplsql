@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/sqlgen"
+	"gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql/pkg/sqlgen"
 )
 
 type Querier interface {

@@ -1,4 +1,4 @@
-module github.com/gemini-kenshi/pg-replicate-sql
+module gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql
 
 go 1.22.3
 

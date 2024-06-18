@@ -12,9 +12,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/config"
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/queryproxy"
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/replicate"
 	"github.com/jackc/pgx/v5/pgconn"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/mattn/go-sqlite3"
@@ -24,6 +21,9 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/modules/postgres"
 	"github.com/testcontainers/testcontainers-go/wait"
+	"gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql/pkg/config"
+	"gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql/pkg/queryproxy"
+	"gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql/pkg/replicate"
 )
 
 type nameRow struct {

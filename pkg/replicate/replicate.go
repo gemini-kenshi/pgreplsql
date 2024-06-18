@@ -9,14 +9,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/sqlgen"
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/tables"
 	"github.com/jackc/pglogrepl"
 	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgproto3"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	"gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql/pkg/sqlgen"
+	"gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql/pkg/tables"
 )
 
 type Conn struct {

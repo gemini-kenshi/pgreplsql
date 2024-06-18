@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/sqlgen"
 	"github.com/rs/zerolog/log"
+	"gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql/pkg/sqlgen"
 )
 
 type FieldDecoder interface {
