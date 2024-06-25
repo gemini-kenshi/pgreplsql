@@ -1,6 +1,6 @@
 module gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql
 
-go 1.22.3
+go 1.22.2
 
 require (
 	github.com/jackc/pglogrepl v0.0.0-20230630212501-5fd22a600b50
