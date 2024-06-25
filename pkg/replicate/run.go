@@ -2,9 +2,9 @@ package replicate
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 
-	"github.com/jmoiron/sqlx"
 	"github.com/rs/zerolog/log"
 	"gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql/pkg/config"
 	"gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql/pkg/sqlgen"
@@ -21,7 +21,7 @@ func Run(ctx context.Context, cfg *config.Config) error {
 	defer conn.Close()
 
 	// TODO: this is shared across reader and writer
-	db, err := sqlx.Open("sqlite", cfg.Local.Path)
+	db, err := sql.Open("sqlite", cfg.Local.Path)
 	if err != nil {
 		return fmt.Errorf("connect to local db: %w", err)
 	}

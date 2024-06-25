@@ -4,16 +4,14 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-
-	"github.com/jmoiron/sqlx"
 )
 
 type DbDriver struct {
-	db  *sqlx.DB
+	db  *sql.DB
 	cfg SqliteConfig
 }
 
-func NewSqliteDriver(cfg SqliteConfig, db *sqlx.DB) *DbDriver {
+func NewSqliteDriver(cfg SqliteConfig, db *sql.DB) *DbDriver {
 	return &DbDriver{
 		cfg: cfg,
 		db:  db,
@@ -32,7 +30,6 @@ func (s *DbDriver) Pos() (string, error) {
 	AND plugin = ?
 	AND publication = ?;`
 
-	query = s.db.Rebind(query)
 	row := s.db.QueryRow(query, s.cfg.SourceDB, s.cfg.Plugin, s.cfg.Publication)
 
 	var pos string
