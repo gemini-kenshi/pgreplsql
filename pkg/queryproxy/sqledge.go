@@ -7,8 +7,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/config"
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/pgwire"
+	"github.com/gemini-kenshi/pgreplsql/pkg/config"
+	"github.com/gemini-kenshi/pgreplsql/pkg/pgwire"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog/log"

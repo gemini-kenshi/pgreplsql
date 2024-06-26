@@ -1,4 +1,4 @@
-module github.com/gemini-kenshi/pg-replicate-sql
+module github.com/gemini-kenshi/pgreplsql
 
 go 1.22.3
 

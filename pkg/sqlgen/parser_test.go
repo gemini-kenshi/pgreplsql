@@ -3,7 +3,7 @@ package sqlgen_test
 import (
 	"testing"
 
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/sqlgen"
+	"github.com/gemini-kenshi/pgreplsql/pkg/sqlgen"
 	"github.com/stretchr/testify/assert"
 )
 

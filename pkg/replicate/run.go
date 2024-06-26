@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/config"
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/sqlgen"
+	"github.com/gemini-kenshi/pgreplsql/pkg/config"
+	"github.com/gemini-kenshi/pgreplsql/pkg/sqlgen"
 	"github.com/rs/zerolog/log"
 	_ "modernc.org/sqlite"
 )

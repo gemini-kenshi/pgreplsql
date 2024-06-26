@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/sqlgen"
+	"github.com/gemini-kenshi/pgreplsql/pkg/sqlgen"
 	"github.com/rs/zerolog/log"
 )
 

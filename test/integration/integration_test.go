@@ -12,9 +12,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/config"
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/queryproxy"
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/replicate"
+	"github.com/gemini-kenshi/pgreplsql/pkg/config"
+	"github.com/gemini-kenshi/pgreplsql/pkg/queryproxy"
+	"github.com/gemini-kenshi/pgreplsql/pkg/replicate"
 	"github.com/jackc/pgx/v5/pgconn"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/mattn/go-sqlite3"

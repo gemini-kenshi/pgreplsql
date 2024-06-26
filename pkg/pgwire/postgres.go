@@ -9,7 +9,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/gemini-kenshi/pg-replicate-sql/pkg/sqlgen"
+	"github.com/gemini-kenshi/pgreplsql/pkg/sqlgen"
 	"github.com/jackc/pgx/v5/pgproto3"
 	"github.com/rs/zerolog/log"
 )
@@ -227,7 +227,6 @@ func Handle(schema string, upstream, local *sql.DB, conn net.Conn) {
 		}
 
 	}
-
 }
 
 // Eventually this method should parse the connection
