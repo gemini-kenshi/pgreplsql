@@ -7,6 +7,7 @@ import (
 	"math"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/rs/zerolog/log"
 	"gitlab.profetai.internal/profetai_ailm_team/online-deployment/libs/pg-replicate-sql/pkg/sqlgen"
@@ -45,6 +46,8 @@ func decoders(def []sqlgen.ColDef) []FieldDecoder {
 			out[i] = new(jsonb)
 		case sqlgen.PgColTypeBool:
 			out[i] = new(boolean)
+		case sqlgen.PgColTypeTimestamp:
+			out[i] = new(timestamp)
 		default:
 			out[i] = new(str)
 		}
@@ -232,4 +235,26 @@ func (d *arr) Decode(b []byte) string {
 	out.WriteRune('}')
 
 	return out.String()
+}
+
+type timestamp struct{}
+
+func (t *timestamp) numeric() bool { return false }
+func (t *timestamp) Decode(b []byte) string {
+	var microsecondsSinceEpoch int64
+	reader := bytes.NewReader(b)
+
+	err := binary.Read(reader, binary.BigEndian, &microsecondsSinceEpoch)
+	if err != nil {
+		log.Err(err).Msg("error reading timestamp value")
+	}
+
+	// Default PostgreSQL epoch starts at 2000-01-01 00:00:00 UTC
+	postgresEpoch := time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)
+
+	// Add the microseconds to the epoch
+	decodedTime := postgresEpoch.Add(time.Duration(microsecondsSinceEpoch) * time.Microsecond)
+
+	// TODO: How to make format configurable
+	return decodedTime.Format(time.RFC3339Nano)
 }
