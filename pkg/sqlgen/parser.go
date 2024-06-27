@@ -201,6 +201,7 @@ func (p *Parser) peek() string {
 	return token
 }
 
+// nolint
 func (p *Parser) seekToNext(r rune) bool {
 	idx := strings.IndexRune(p.sql[p.i:], r)
 	if idx == -1 {

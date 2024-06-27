@@ -1,0 +1,4 @@
+issues:
+  exclude-rules:
+  - path: pkg/sqlgen/sqlite.go  # Path to your file
+    text: "SA9003: empty branch"  # Specific warning text

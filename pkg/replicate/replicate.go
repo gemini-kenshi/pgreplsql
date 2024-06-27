@@ -413,7 +413,6 @@ func (s *slot) listen() {
 		}
 
 		if time.Now().After(nextStandbyMessageDeadline) {
-			log.Trace().Msg("status heartbeat")
 			err := pglogrepl.SendStandbyStatusUpdate(
 				context.Background(),
 				s.conn,

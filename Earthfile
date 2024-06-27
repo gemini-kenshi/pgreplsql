@@ -13,11 +13,11 @@ src:
     COPY . .
     SAVE ARTIFACT /libs/pg-replicate-sql
     
-# check:
-#     FROM +src
+check:
+    FROM +src
 
-#     DO go+FMT
-#     DO go+LINT
+    DO go+FMT
+    DO go+LINT
 
 test:
     FROM +src

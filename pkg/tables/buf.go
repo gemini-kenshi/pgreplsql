@@ -19,12 +19,14 @@ func (b *buf) popInt16() (n int) {
 	return
 }
 
+//nolint:unused
 func (b *buf) popStringN(high int) string {
 	s := (*b)[:high]
 	*b = (*b)[high:]
 	return string(s)
 }
 
+//nolint:unused
 func (b *buf) peekNextBytes(want []byte) bool {
 	high := len(want)
 	return bytes.Equal((*b)[:high], want)
