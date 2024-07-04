@@ -1,8 +1,8 @@
-# PG-replicate-sql
+# PGReplSQL
 
 This project is forked from zknill/sqledge.
 
-The main purpose of this version is to create a package that generate SQL from Postgres replication message.
+The main purpose of this version is to create a package that generates SQL from Postgres replication messages.
 
 I don't need the Postgres proxy for my work but I will leave the code unchanged for now.
 
