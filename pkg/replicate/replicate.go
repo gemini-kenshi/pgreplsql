@@ -435,6 +435,10 @@ func (s *slot) listen() {
 				continue
 			}
 
+			if s.conn.IsClosed() {
+				return
+			}
+
 			go s.sendErr(err)
 		}
 
@@ -445,7 +449,7 @@ func (s *slot) listen() {
 
 		msg, ok := rawMsg.(*pgproto3.CopyData)
 		if !ok {
-			go s.sendErr(fmt.Errorf("unexpected message: %w", err))
+			go s.sendErr(fmt.Errorf("unexpected message: %v", msg))
 			continue
 		}
 
