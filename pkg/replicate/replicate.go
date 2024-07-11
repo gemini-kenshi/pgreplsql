@@ -226,7 +226,7 @@ func (c *Conn) slot(slotName, outputPlugin string, createSlot, temporary bool, p
 		conn:           c.conn,
 		args:           pluginArguments,
 		name:           slotName,
-		pos:            c.pos,
+		pos:            pos,
 		standbyTimeout: standbyTimeout,
 	}
 
