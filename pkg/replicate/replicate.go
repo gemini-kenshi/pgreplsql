@@ -215,6 +215,7 @@ func (c *Conn) GetSlot(cfg SlotConfig, pos pglogrepl.LSN) (*slot, error) {
 }
 
 func (c *Conn) slot(slotName, outputPlugin string, createSlot, temporary bool, pos pglogrepl.LSN, standbyTimeout int) (*slot, error) {
+	ctx := context.TODO()
 	pluginArguments := []string{
 		"proto_version '2'",
 		fmt.Sprintf("publication_names '%s'", c.publication),
@@ -230,10 +231,10 @@ func (c *Conn) slot(slotName, outputPlugin string, createSlot, temporary bool, p
 		standbyTimeout: standbyTimeout,
 	}
 
-	// TODO: automatically work out if slot exists
-	if createSlot {
+	// Create slot if not exists
+	if createSlot && !c.isSlotExists(ctx, slotName) {
 		res, err := pglogrepl.CreateReplicationSlot(
-			context.Background(),
+			ctx,
 			c.conn,
 			slotName,
 			outputPlugin,
@@ -247,6 +248,26 @@ func (c *Conn) slot(slotName, outputPlugin string, createSlot, temporary bool, p
 	}
 
 	return s, nil
+}
+
+func (c *Conn) isSlotExists(ctx context.Context, slotName string) bool {
+	sql := fmt.Sprintf(`
+	SELECT slot_name FROM pg_replication_slots 
+	WHERE slot_name = '%s'`, slotName)
+
+	mrr := c.conn.Exec(ctx, sql)
+
+	// slot does not exist if result is empty
+	resultSet, err := mrr.ReadAll()
+	if err != nil {
+		log.Err(err).Msg("error checking replication slot")
+	}
+	if len(resultSet) != 1 {
+		log.Err(fmt.Errorf("expected 1 result set, got %d", len(resultSet)))
+	}
+	result := resultSet[0]
+
+	return len(result.Rows) != 0
 }
 
 func (c *Conn) identify() error {
