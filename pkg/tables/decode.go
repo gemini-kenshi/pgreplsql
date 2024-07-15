@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"math"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -41,7 +42,7 @@ func decoders(def []sqlgen.ColDef) []FieldDecoder {
 		case sqlgen.PgColTypeBytea:
 			out[i] = new(bytea)
 		case sqlgen.PgColTypeJson:
-			out[i] = new(str)
+			out[i] = new(jsonType)
 		case sqlgen.PgColTypeJsonB:
 			out[i] = new(jsonb)
 		case sqlgen.PgColTypeBool:
@@ -150,6 +151,19 @@ type str struct{}
 
 func (s *str) numeric() bool          { return false }
 func (s *str) Decode(b []byte) string { return string(b) }
+
+type jsonType struct{}
+
+func (s *jsonType) numeric() bool { return false }
+func (s *jsonType) Decode(b []byte) string {
+	// Define regex patterns for escape sequences \"
+	quotePattern := regexp.MustCompile(`\"`)
+
+	// Replace escape sequences
+	cleanedStr := quotePattern.ReplaceAllString(string(b), "")
+
+	return cleanedStr
+}
 
 type jsonb struct{}
 

@@ -22,7 +22,7 @@ type Config struct {
 		CreateSlotIfNoExists bool   `env:"SQLEDGE_REPLICATION_CREATE_SLOT,default=true"`
 		Temporary            bool   `env:"SQLEDGE_REPLICATION_TEMP_SLOT,default=true"`
 		Publication          string `env:"SQLEDGE_REPLICATION_PUBLICATION,default=sqledge"`
-		StandbyTimeout       int    `env:"SQLEDGE_REPLICATION_STANDBY_TIME",default=15"`
+		StandbyTimeout       int    `env:"SQLEDGE_REPLICATION_STANDBY_TIME,default=15"`
 	}
 
 	Local struct {
